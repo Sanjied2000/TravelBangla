@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% load static %}
+<!-- Load static files at the top -->
+
+{% block title %} Packages {% endblock title %} {% block body %}
+<div class="container mt-4">
+  <h1 class="text-center">Our Packages!!</h1>
+
+  <div class="row">
+    {% for package in packages %}
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+       
+
+        <img src="{% static package.imgname|add:'.jpeg' %}" class="card-img-top" style="height: 200px;" alt="{{ package.pName }}">
+
+        
+
+        <div class="card-body">
+          <h5 class="card-title">{{ package.pName }}</h5>
+          <p class="card-text">
+            <strong>Destination:</strong> {{ package.destination }}<br />
+            <strong>Duration:</strong> {{ package.days }} Days,
+            {{package.nights }} Nights<br />
+            <strong>Price:</strong> ${{ package.price }}<br />
+          </p>
+          <a
+            href="{% url 'booking' package.pName%}"
+            class="btn"
+            style="background-color: #e02d36; color: white"
+            >Book Now</a
+          >
+
+          <a
+          href="{% url 'details' package.pName%}"
+          class="btn"
+          style="background-color: #e02d36; color: white"
+          >Details</a
+        >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock body %}

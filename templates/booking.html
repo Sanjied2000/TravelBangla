@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Details
+{% endblock title %}
+
+{% block body %}
+<h1 class="text-center">Book Package{{package.pName}} now!!</h1>
+<div class="container d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm text-center">
+            <img src="{% static package.imgname|add:'.jpeg' %}" class="card-img-top mx-auto"
+                style="height: 200px; width: auto;" alt="{{ package.pName }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ package.pName }}</h5>
+                <p class="card-text">
+                    <strong>User Name:</strong> {{ user.username }}<br />
+                    <strong>Email:</strong> {{ user.email }}<br />
+                    <strong>Destination:</strong> {{ package.destination }}<br />
+                    <strong>Duration:</strong> {{ package.days }} Days, {{ package.nights }} Nights<br />
+                    <strong>Hotel:</strong> {{ package.hotel}}<br />
+                    <strong>Price:</strong> ${{ package.price }}<br />
+                </p>
+                <form method="post" action="{% url 'booking' package.pName%}">
+                    {% csrf_token %}
+
+                    <label for="travel_date"><strong>Select Travel Date:</strong></label>
+                    <input type="date" id="travel_date" name="travel_date" required>
+                
+                    <br><br>
+                    <!-- Dropdown for selecting number of people -->
+                    <label for="num_people"><strong>Number of People:</strong></label>
+                    <select name="num_people" id="num_people" required>
+                        {% for i in "12345678" %}
+                        <option value="{{ i }}" {% if i|add:0 == 1 %}selected{% endif %}>{{ i }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <!-- Booking Button -->
+                    <button type="submit" style="background-color: #e02d36; color: white">Book Package</button>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
