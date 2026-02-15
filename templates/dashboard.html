@@ -1,8 +1,5 @@
-{% load static %}
-{% extends "base.html" %}
-{% block title %} Dashboard {% endblock title %}
-
-{% block body %}
+{% extends "base.html" %} {% load static %} {% block title %} Dashboard {%
+endblock title %} {% block body %}
 <style>
   .dashboard-header {
     background: linear-gradient(45deg, #f32e38, #b91d25);
@@ -74,61 +71,76 @@
   </div>
 
   {% if dashitems %}
-    <div class="row">
-      {% for booking in dashitems %}
-        <div class="col-12 mb-3">
-          <div class="card booking-card shadow-sm p-3">
-            <div class="row align-items-center text-center text-md-start">
-              
-              <div class="col-md-3">
-                <h5 class="fw-bold mb-0" style="color: #f32e38">
-                  {{ booking.package.pName }}
-                </h5>
-                <small class="text-muted">
-                  <i class="bi bi-calendar-event me-1"></i>{{ booking.date }}
-                </small>
-              </div>
+  <div class="row">
+    {% for booking in dashitems %}
+    <div class="col-12 mb-3">
+      <div class="card booking-card shadow-sm p-3">
+        <div class="row align-items-center text-center text-md-start">
+          <div class="col-md-3">
+            <h5 class="fw-bold mb-0" style="color: #f32e38">
+              {{ booking.package.pName }}
+            </h5>
+            <small class="text-muted">
+              <i class="bi bi-calendar-event me-1"></i>{{ booking.date }}
+            </small>
+          </div>
 
-              <div class="col-md-2 mt-2 mt-md-0">
-                <div class="small text-muted text-uppercase">Travelers</div>
-                <div class="fw-bold">
-                  <i class="bi bi-people me-1"></i>{{ booking.numberofpeople }} People
-                </div>
-              </div>
-
-              <div class="col-md-2 mt-2 mt-md-0">
-                <div class="small text-muted text-uppercase">Price</div>
-                <div class="fw-bold text-success">${{ booking.total_price }}</div>
-              </div>
-
-              <div class="col-md-2 mt-2 mt-md-0">
-                <div class="small text-muted text-uppercase mb-1">Status</div>
-                <span class="status-badge {% if booking.status == 'Pending' %}status-pending{% else %}status-confirmed{% endif %}">
-                  {{ booking.status }}
-                </span>
-              </div>
-
-              <div class="col-md-3 mt-3 mt-md-0 text-md-end">
-                <a href="{% url 'index' %}" class="btn btn-outline-success btn-dash me-1">
-                  <i class="bi bi-credit-card me-1"></i>Pay
-                </a>
-                <a href="{% url 'cancel' booking.id %}" class="btn btn-outline-danger btn-dash" onclick="return confirm('Are you sure you want to cancel this booking?');">
-                  <i class="bi bi-x-circle me-1"></i>Cancel
-                </a>
-              </div>
-
+          <div class="col-md-2 mt-2 mt-md-0">
+            <div class="small text-muted text-uppercase">Travelers</div>
+            <div class="fw-bold">
+              <i class="bi bi-people me-1"></i>{{ booking.numberofpeople }}
+              People
             </div>
           </div>
+
+          <div class="col-md-2 mt-2 mt-md-0">
+            <div class="small text-muted text-uppercase">Price</div>
+            <div class="fw-bold text-success">${{ booking.total_price }}</div>
+          </div>
+
+          <div class="col-md-2 mt-2 mt-md-0">
+            <div class="small text-muted text-uppercase mb-1">Status</div>
+            <span
+              class="status-badge {% if booking.status == 'Pending' %}status-pending{% else %}status-confirmed{% endif %}"
+            >
+              {{ booking.status }}
+            </span>
+          </div>
+
+          <div class="col-md-3 mt-3 mt-md-0 text-md-end">
+            <a
+              href="{% url 'index' %}"
+              class="btn btn-outline-success btn-dash me-1"
+            >
+              <i class="bi bi-credit-card me-1"></i>Pay
+            </a>
+            <a
+              href="{% url 'cancel' booking.id %}"
+              class="btn btn-outline-danger btn-dash"
+              onclick="
+                return confirm('Are you sure you want to cancel this booking?');
+              "
+            >
+              <i class="bi bi-x-circle me-1"></i>Cancel
+            </a>
+          </div>
         </div>
-      {% endfor %}
+      </div>
     </div>
+    {% endfor %}
+  </div>
   {% else %}
-    <div class="empty-state">
-      <i class="bi bi-luggage-fill display-1 mb-3"></i>
-      <h4>No bookings found yet.</h4>
-      <p>Ready for an adventure? Browse our packages and start planning!</p>
-      <a href="{% url 'packages' %}" class="btn btn-danger px-4 mt-2" style="background-color: #f32e38">Explore Packages</a>
-    </div>
+  <div class="empty-state">
+    <i class="bi bi-luggage-fill display-1 mb-3"></i>
+    <h4>No bookings found yet.</h4>
+    <p>Ready for an adventure? Browse our packages and start planning!</p>
+    <a
+      href="{% url 'packages' %}"
+      class="btn btn-danger px-4 mt-2"
+      style="background-color: #f32e38"
+      >Explore Packages</a
+    >
+  </div>
   {% endif %}
 </div>
 

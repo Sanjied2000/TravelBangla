@@ -1,0 +1,17 @@
+.card a button.btn.btn-primary {
+    background-color: #e02d36;
+    border-color: #ffffff;
+    
+}
+.card{
+    p{
+        font-size: large;
+    }
+
+}
+
+.btn.btn-primary{
+    background-color: #e02d36;
+    border-color: #ffffff;
+   
+}
