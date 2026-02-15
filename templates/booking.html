@@ -1,47 +1,142 @@
-{% extends "base.html" %}
-{% load static %}
-{% block title %}
-Details
-{% endblock title %}
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block title %} Booking - {{ package.destination }} {% endblock title %} 
 
 {% block body %}
-<h1 class="text-center">Book Package{{package.pName}} now!!</h1>
-<div class="container d-flex justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm text-center">
-            <img src="{% static package.imgname|add:'.jpeg' %}" class="card-img-top mx-auto"
-                style="height: 200px; width: auto;" alt="{{ package.pName }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ package.pName }}</h5>
-                <p class="card-text">
-                    <strong>User Name:</strong> {{ user.username }}<br />
-                    <strong>Email:</strong> {{ user.email }}<br />
-                    <strong>Destination:</strong> {{ package.destination }}<br />
-                    <strong>Duration:</strong> {{ package.days }} Days, {{ package.nights }} Nights<br />
-                    <strong>Hotel:</strong> {{ package.hotel}}<br />
-                    <strong>Price:</strong> ${{ package.price }}<br />
-                </p>
-                <form method="post" action="{% url 'booking' package.pName%}">
-                    {% csrf_token %}
+<style>
+    .booking-container {
+        margin-top: 50px;
+        margin-bottom: 80px;
+    }
+    
+    .form-section {
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
 
-                    <label for="travel_date"><strong>Select Travel Date:</strong></label>
-                    <input type="date" id="travel_date" name="travel_date" required>
+    .summary-card {
+        background-color: #f8f9fa;
+        border: none;
+        border-radius: 15px;
+    }
+
+    .package-mini-img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .btn-book {
+        background-color: #f32e38;
+        color: white;
+        font-weight: bold;
+        padding: 12px;
+        transition: all 0.3s;
+        border: none;
+    }
+
+    .btn-book:hover {
+        background-color: #d1222b;
+        transform: translateY(-2px);
+    }
+
+    /* Custom styles for inputs */
+    input[type="date"], select {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #444;
+        margin-top: 15px;
+    }
+</style>
+
+<div class="container booking-container">
+    <div class="row g-5">
+        
+        <div class="col-lg-7">
+            <div class="form-section">
+                <h2 class="fw-bold mb-4" style="color: #f32e38;">Confirm Your Booking</h2>
                 
-                    <br><br>
-                    <!-- Dropdown for selecting number of people -->
-                    <label for="num_people"><strong>Number of People:</strong></label>
-                    <select name="num_people" id="num_people" required>
-                        {% for i in "12345678" %}
-                        <option value="{{ i }}" {% if i|add:0 == 1 %}selected{% endif %}>{{ i }}</option>
-                        {% endfor %}
-                    </select>
+                <form method="post" action="{% url 'booking' package.pName %}">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">User Name</label>
+                            <input type="text" class="form-control bg-light" value="{{ user.username }}" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control bg-light" value="{{ user.email }}" readonly>
+                        </div>
+                    </div>
 
-                    <!-- Booking Button -->
-                    <button type="submit" style="background-color: #e02d36; color: white">Book Package</button>
+                    <div class="mb-3">
+                        <label for="travel_date" class="form-label">Select Travel Date</label>
+                        <input type="date" id="travel_date" name="travel_date" class="form-control" required>
+                        <small class="text-muted">Available from next week onwards.</small>
+                    </div>
 
+                    <div class="mb-4">
+                        <label for="num_people" class="form-label">Number of People</label>
+                        <select name="num_people" id="num_people" class="form-select" required>
+                            {% for i in "12345678" %}
+                                <option value="{{ i }}" {% if forloop.first %}selected{% endif %}>
+                                    {{ i }} {% if i == "1" %}Person{% else %}People{% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
+                    <div class="alert alert-info py-2 small">
+                        <i class="bi bi-info-circle me-2"></i> No payment is required right now. Our agent will contact you for payment details.
+                    </div>
+
+                    <button type="submit" class="btn btn-book w-100 mt-3 fs-5">
+                        <i class="bi bi-check-circle me-2"></i> CONFIRM BOOKING
+                    </button>
+                </form>
             </div>
         </div>
+
+        <div class="col-lg-5">
+            <div class="card summary-card p-4">
+                <h4 class="fw-bold mb-3 text-dark">Booking Summary</h4>
+                <img src="{% static package.imgname|add:'.jpeg' %}" class="package-mini-img mb-3" alt="{{ package.destination }}">
+                
+                <h5 class="fw-bold mb-1">{{ package.destination }}</h5>
+                <p class="text-muted small mb-3">Package ID: {{ package.pName }}</p>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span><i class="bi bi-calendar3 me-2"></i>Duration:</span>
+                    <span class="fw-bold">{{ package.days }}D / {{ package.nights }}N</span>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span><i class="bi bi-building me-2"></i>Accommodation:</span>
+                    <span class="fw-bold">{{ package.hotel }}</span>
+                </div>
+                
+                <hr>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fs-5 fw-bold">Price Per Person:</span>
+                    <span class="fs-4 fw-bold text-danger">${{ package.price }}</span>
+                </div>
+                
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock body %}

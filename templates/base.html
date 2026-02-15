@@ -3,54 +3,283 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TravelBangla {% block title %}{% endblock title %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body style="font-family: Ubuntu;">
-    <nav class="navbar navbar-expand-lg" style="background-color: #ffffff">
-        <div class="container-fluid">
-          <img src="{% static 'tb2.png' %}" style="width:40px; height:40px; border-radius: 50%;">
-          <a class="navbar-brand" href="/">TravelBangla</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  <body style="font-family: Ubuntu">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3"
+    >
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+          <img src="{% static 'tb2.png' %}" alt="Logo" width="45" height="45" />
+          <span
+            class="fw-bold fs-4 ms-2"
+            style="color: #f32e38; letter-spacing: -1px"
+            >TravelBangla</span
+          >
+        </a>
 
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'packages' %}">Packages</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'dashboard' request.user.id %}">Dashboard</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
-              </li>
-              
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-              
-            </ul>
-            <div class="ms-auto d-flex align-items-center">
-              {% if request.user.is_authenticated %}
-              <p class="mb-0 me-2">{{request.user.username}}</p>
-              <a href="{% url 'logout' %}" class="btn" style="background-color: #e02d36; color: white;">Logout</a>
-              {% endif %}
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold px-3 text-dark hover-red"
+                href="{% url 'packages' %}"
+                >Packages</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold px-3 text-dark hover-red"
+                href="{% url 'dashboard' request.user.id %}"
+                >Dashboard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold px-3 text-dark hover-red"
+                href="{% url 'aboutus' %}"
+                >About Us</a
+              >
+            </li>
+
+            {% if request.user.is_authenticated %}
+            <li class="nav-item d-lg-none">
+              <p class="nav-link fw-semibold px-3 text-dark hover-red "
+                >{{request.user.username}}</p
+              >
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link fw-semibold px-3 text-dark hover-red" href="{% url 'dashboard' request.user.id %}"
+                >My Profile</a
+              >
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link fw-semibold px-3 text-danger hover-red" href="{% url 'logout' %}"
+                >Logout</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+
+          <div class="d-none d-lg-flex align-items-center">
+            {% if request.user.is_authenticated %}
+            <div class="dropdown">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center text-danger fw-bold"
+                href="#"
+                id="userDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+          
+                {{request.user.username}}
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end border-0 shadow"
+                aria-labelledby="userDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'dashboard' request.user.id %}"
+                    >My Profile</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item text-danger" href="{% url 'logout' %}"
+                    >Logout</a
+                  >
+                </li>
+              </ul>
             </div>
-
-           
+            {% else %}
+            <a
+              href="{% url 'login' %}"
+              class="btn btn-outline-danger border-2 fw-bold px-4 me-2"
+              >Login</a
+            >
+            <a
+              href="{% url 'register' %}"
+              class="btn btn-danger fw-bold px-4 text-white"
+              style="background-color: #f32e38"
+              >Sign Up</a
+            >
+            {% endif %}
           </div>
         </div>
-      </nav>
-    <hr style="display: block;margin:0px; border-width: 2px;">
+      </div>
+    </nav>
 
- {% block body %}{% endblock body %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+      /* Fix for Dropdown Z-index */
+      .navbar {
+        z-index: 1050;
+      }
+      .dropdown-menu {
+        z-index: 1100;
+      }
+
+      .hover-red {
+        transition: color 0.3s ease;
+      }
+      .hover-red:hover {
+        color: #f32e38 !important;
+      }
+
+      /* Active link style */
+      .nav-link.active {
+        color: #f32e38 !important;
+        border-bottom: 2px solid #f32e38;
+      }
+    </style>
+
+    {% block body %}{% endblock body %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
   </body>
-  <footer class="sticky-bottom" style="text-align: center;background-color: white;"><p style="margin-bottom: 0px;">© 2025 Copyright : travelbangla.com</p></footer>
+  <footer
+    class="bg-white text-dark pt-5 pb-3 shadow-lg"
+    style="margin-top: 80px; border-top: 3px solid #f32e38"
+  >
+    <div class="container mt-3">
+      <div class="row text-center text-md-start">
+        <div class="col-md-4 col-lg-4 col-xl-3 mx-auto mb-4">
+          <h5 class="text-uppercase fw-bold" style="color: #f32e38">
+            TravelBangla
+          </h5>
+          <hr
+            class="mb-4 mt-0 d-inline-block mx-auto"
+            style="
+              width: 60px;
+              background-color: #f32e38;
+              height: 2px;
+              opacity: 1;
+            "
+          />
+          <p>
+            Your trusted partner for exploring the hidden gems of Bangladesh and
+            beyond. We provide seamless booking and unforgettable experiences.
+          </p>
+        </div>
+
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h6 class="text-uppercase fw-bold">Quick Links</h6>
+          <hr
+            class="mb-4 mt-0 d-inline-block mx-auto"
+            style="
+              width: 60px;
+              background-color: #f32e38;
+              height: 2px;
+              opacity: 1;
+            "
+          />
+          <p><a href="/" class="text-dark text-decoration-none">Home</a></p>
+          <p>
+            <a href="/packages" class="text-dark text-decoration-none"
+              >Packages</a
+            >
+          </p>
+          <p>
+            <a href="/about" class="text-dark text-decoration-none">About Us</a>
+          </p>
+          <p>
+            <a href="/contact" class="text-dark text-decoration-none"
+              >Contact</a
+            >
+          </p>
+        </div>
+
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <h6 class="text-uppercase fw-bold">Contact</h6>
+          <hr
+            class="mb-4 mt-0 d-inline-block mx-auto"
+            style="
+              width: 60px;
+              background-color: #f32e38;
+              height: 2px;
+              opacity: 1;
+            "
+          />
+          <p>
+            <i class="bi bi-house-door-fill me-3" style="color: #f32e38"></i>
+            Dhaka, Bangladesh
+          </p>
+          <p>
+            <i class="bi bi-envelope-fill me-3" style="color: #f32e38"></i>
+            info@travelbangla.com
+          </p>
+          <p>
+            <i class="bi bi-telephone-fill me-3" style="color: #f32e38"></i>
+            +880 1234 567 890
+          </p>
+        </div>
+
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 text-center">
+          <h6 class="text-uppercase fw-bold">Follow Us</h6>
+          <hr
+            class="mb-4 mt-0 d-inline-block mx-auto"
+            style="
+              width: 60px;
+              background-color: #f32e38;
+              height: 2px;
+              opacity: 1;
+            "
+          />
+          <div
+            class="d-flex justify-content-center justify-content-md-start gap-3"
+          >
+            <a href="#" class="text-dark fs-4"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-dark fs-4"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a href="#" class="text-dark fs-4"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="text-center p-3 mt-4"
+      style="background-color: rgba(0, 0, 0, 0.05); font-size: 14px"
+    >
+      © 2025 Copyright:
+      <a
+        class="text-dark fw-bold text-decoration-none"
+        href="https://travelbangla.com/"
+        >travelbangla.com</a
+      >
+    </div>
+  </footer>
 </html>

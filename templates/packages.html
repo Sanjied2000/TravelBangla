@@ -1,41 +1,111 @@
-{% extends "base.html" %} {% load static %}
-<!-- Load static files at the top -->
+{% extends "base.html" %} 
+{% load static %}
 
-{% block title %} Packages {% endblock title %} {% block body %}
-<div class="container mt-4">
-  <h1 class="text-center">Our Packages!!</h1>
+{% block title %} Packages {% endblock title %} 
+
+{% block body %}
+<style>
+    /* Professional Card Styling */
+    .package-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .package-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(243, 46, 56, 0.2);
+    }
+
+    /* Image zoom effect on hover */
+    .img-container {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .package-card img {
+        transition: transform 0.5s ease;
+        object-fit: cover;
+        height: 220px;
+    }
+
+    .package-card:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Price Tag Badge */
+    .price-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: #f32e38;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .package-id {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #6c757d;
+        letter-spacing: 1px;
+    }
+
+    .btn-details {
+        background-color: transparent;
+        border: 2px solid #f32e38;
+        color: #f32e38;
+    }
+
+    .btn-details:hover {
+        background-color: #f32e38;
+        color: white;
+    }
+</style>
+
+<div class="container mt-2">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold" style="color: #f32e38;">Our Travel Packages</h1>
+    <p class="text-muted">Choose your next adventure from our handpicked destinations.</p>
+  </div>
 
   <div class="row">
     {% for package in packages %}
-    <div class="col-md-4 mb-4">
-      <div class="card shadow-sm">
-       
-
-        <img src="{% static package.imgname|add:'.jpeg' %}" class="card-img-top" style="height: 200px;" alt="{{ package.pName }}">
-
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card package-card shadow-sm h-100">
         
+        <div class="img-container">
+            <img src="{% static package.imgname|add:'.jpg' %}" class="card-img-top" alt="{{ package.destination }}">
+            <div class="price-badge">${{ package.price }}</div>
+        </div>
 
-        <div class="card-body">
-          <h5 class="card-title">{{ package.pName }}</h5>
-          <p class="card-text">
-            <strong>Destination:</strong> {{ package.destination }}<br />
-            <strong>Duration:</strong> {{ package.days }} Days,
-            {{package.nights }} Nights<br />
-            <strong>Price:</strong> ${{ package.price }}<br />
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+              <h4 class="card-title fw-bold mb-0">{{ package.destination }}</h4>
+              <span class="package-id">#{{ package.pName }}</span>
+          </div>
+          
+          <div class="mb-3">
+              <span class="text-muted">
+                <i class="bi bi-calendar3 me-1 text-danger"></i> {{ package.days }} Days, {{ package.nights }} Nights
+              </span>
+          </div>
+
+          <p class="card-text text-muted flex-grow-1">
+              Explore the beauty of {{ package.destination }} with our all-inclusive premium package.
           </p>
-          <a
-            href="{% url 'booking' package.pName%}"
-            class="btn"
-            style="background-color: #e02d36; color: white"
-            >Book Now</a
-          >
 
-          <a
-          href="{% url 'details' package.pName%}"
-          class="btn"
-          style="background-color: #e02d36; color: white"
-          >Details</a
-        >
+          <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-3">
+            <a href="{% url 'details' package.pName %}" class="btn btn-details fw-bold px-4 flex-grow-1">
+                Details
+            </a>
+            <a href="{% url 'booking' package.pName %}" class="btn btn-danger fw-bold px-4 flex-grow-1" style="background-color: #f32e38;">
+                Book Now
+            </a>
+          </div>
         </div>
       </div>
     </div>

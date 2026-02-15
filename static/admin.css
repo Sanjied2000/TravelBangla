@@ -1,8 +1,7 @@
 .card a button.btn.btn-primary {
     background-color: #e02d36;
-    /* Your preferred color */
     border-color: #ffffff;
-    /* Matching border color */
+    
 }
 .card{
     p{
@@ -13,7 +12,6 @@
 
 .btn.btn-primary{
     background-color: #e02d36;
-    /* Your preferred color */
     border-color: #ffffff;
-    /* Matching border color */
+   
 }

@@ -1,39 +1,122 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}
-AboutUs{% endblock title %}
+
+{% block title %} About Us {% endblock title %}
+
 {% block body %}
-<div class="headline" style="text-align: center;">
-    <h1>AboutUs!!!</h1>
-    <div class="container d-flex justify-content-center">
-      <div class="card mb-3" style="max-width: 100%;">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="/static/tb2.png" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">TravelBangla</h5>
-              <p class="card-text">Welcome to TravelBangla, your trusted partner in discovering the beauty of Bangladesh and beyond. We are passionate about creating unforgettable travel experiences that showcase the rich culture, breathtaking landscapes, and hidden gems of our homeland.
+<style>
+    .about-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/img3.jpg'); /* Reuse one of your carousel images */
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 70px 0;
+        margin-bottom: 60px;
+    }
 
-                At TravelBangla, we believe that every journey tells a story. Whether you're looking for an adventure-filled trip, a relaxing getaway, or a deep dive into the heritage of Bangladesh, we are here to make it happen. Our team of travel experts curates personalized itineraries, ensuring every trip is seamless, enjoyable, and filled with authentic local experiences.
-                
-                From exploring the serene hills of Bandarban to the pristine beaches of Cox’s Bazar, the lush tea gardens of Sylhet to the historical wonders of Sonargaon, we bring you the best of Bangladesh. We also offer international tour packages, making global travel easy and hassle-free for our clients.
-                
-                With a commitment to exceptional service, affordability, and sustainable tourism, TravelBangla is more than just a travel agency—we are your gateway to a world of adventure.
-                
-                Let’s explore, experience, and embrace the wonders of travel together!
-                
-                Your Journey, Our Passion.</p>
-              
-            </div>
-          </div>
-        </div>
-      </div>
+    .about-img-frame {
+        position: relative;
+        padding: 15px;
+        border: 2px solid #f32e38;
+        border-radius: 20px;
+    }
+
+    .about-img-frame img {
+        border-radius: 15px;
+        box-shadow: 10px 10px 0px #f32e38;
+    }
+
+    .stat-card {
+        border: none;
+        border-bottom: 4px solid #f32e38;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+       
+        transform: translateY(-5px);
+    }
+
+    .stat-card:hover i {
+        color: white !important;
+    }
+
+    .lead-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+</style>
+
+<section class="about-hero text-center">
+    <div class="container">
+        <h1 class="display-3 fw-bold">Our Story</h1>
+        <p class="lead">Connecting people to the heart of Bangladesh.</p>
     </div>
-    
+</section>
 
+<div class="container mb-5">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-5 text-center">
+            <div class="about-img-frame mx-auto" style="max-width: 400px;">
+                <img src="{% static 'tb2.png' %}" class="img-fluid" alt="TravelBangla Logo">
+            </div>
+        </div>
 
+        <div class="col-lg-7">
+            <h2 class="fw-bold mb-4" style="color: #f32e38;">Welcome to TravelBangla</h2>
+            <div class="lead-text">
+                <p>Welcome to <strong>TravelBangla</strong>, your trusted partner in discovering the beauty of Bangladesh and beyond. We are passionate about creating unforgettable travel experiences that showcase the rich culture, breathtaking landscapes, and hidden gems of our homeland.</p>
+                
+                <p>At TravelBangla, we believe that every journey tells a story. Whether you're looking for an adventure-filled trip in the hills of Bandarban, a relaxing sunset at Cox’s Bazar, or a historical walk through Sonargaon, we are here to make it happen.</p>
+                
+                <p>With a commitment to <strong>exceptional service, affordability, and sustainable tourism</strong>, we aren't just a travel agency—we are your gateway to a world of adventure.</p>
+            </div>
+            
+            <div class="mt-4">
+                <h5 class="fw-bold italic">"Your Journey, Our Passion."</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Why Choose Us?</h2>
+            <hr class="mx-auto" style="width: 80px; height: 3px; background-color: #f32e38; opacity: 1;">
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card stat-card h-100 p-4 text-center">
+                    <i class="bi bi-geo-fill display-4 text-danger mb-3"></i>
+                    <h5 class="fw-bold">Local Experts</h5>
+                    <p class="small text-muted mb-0">Our team knows every corner of Bangladesh to give you an authentic experience.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card h-100 p-4 text-center">
+                    <i class="bi bi-shield-check display-4 text-danger mb-3"></i>
+                    <h5 class="fw-bold">Safe & Hassle-Free</h5>
+                    <p class="small text-muted mb-0">From booking to return, we handle the logistics so you can enjoy the view.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card h-100 p-4 text-center">
+                    <i class="bi bi-wallet2 display-4 text-danger mb-3"></i>
+                    <h5 class="fw-bold">Affordable Luxury</h5>
+                    <p class="small text-muted mb-0">We offer premium itineraries that fit your budget without compromising quality.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center my-5 py-5">
+    <h3 class="fw-bold">Ready to start your next story?</h3>
+    <p class="text-muted mb-4">Browse our handpicked packages and find your perfect getaway.</p>
+    <a href="{% url 'packages' %}" class="btn btn-danger btn-lg px-5 shadow" style="background-color: #f32e38;">View All Packages</a>
 </div>
 
 {% endblock body %}

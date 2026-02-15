@@ -1,44 +1,134 @@
 {% extends "base.html" %}
-{% block title %}
-Dashboard{% endblock title %}
+{% block title %} Dashboard {% endblock title %}
+
 {% block body %}
-<div class="headline" style="text-align: center;">
-    
-    <h1>Manage Your Travel Experience</h1>
+<style>
+  .dashboard-header {
+    background: linear-gradient(45deg, #f32e38, #b91d25);
+    color: white;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    border-radius: 0 0 50px 50px;
+  }
 
-    {% if dashitems %}
-    <h2>Your Bookings</h2>
-    
-        {% for booking in dashitems %}
-        <div class="container d-flex justify-content-center" style="padding: 10px;">
-            <div class="card shadow-sm col-md-6 p-3 d-flex justify-content-between align-items-start" style="background-color: rgb(246, 252, 246);">
-                <!-- Left side: Booking details -->
-                <div class="text-start">
-                    <p class="card-text">
-                        <strong>Package:</strong> {{ booking.package.pName }}<br>
-                        <strong>Date:</strong> {{ booking.date }}<br>
-                        <strong>People:</strong> {{ booking.numberofpeople }}<br>
-                        <strong>Total Price:</strong> ${{ booking.total_price }}<br>
-                        <strong>Status:</strong> {{ booking.status }}
-                    </p>
+  .booking-card {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .booking-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .status-badge {
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  /* Dynamic Status Colors */
+  .status-pending {
+    background: #fff3cd;
+    color: #856404;
+  }
+  .status-confirmed {
+    background: #d4edda;
+    color: #155724;
+  }
+  .status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  .btn-dash {
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .empty-state {
+    padding: 100px 0;
+    text-align: center;
+    color: #6c757d;
+  }
+</style>
+
+<div class="dashboard-header text-center shadow">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Welcome, {{ user.username }}!</h1>
+    <p class="lead">
+      Manage your bookings and travel experiences in one place.
+    </p>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">Your Bookings</h3>
+    <span class="badge bg-dark rounded-pill">{{ dashitems|length }} Total</span>
+  </div>
+
+  {% if dashitems %}
+    <div class="row">
+      {% for booking in dashitems %}
+        <div class="col-12 mb-3">
+          <div class="card booking-card shadow-sm p-3">
+            <div class="row align-items-center text-center text-md-start">
+              
+              <div class="col-md-3">
+                <h5 class="fw-bold mb-0" style="color: #f32e38">
+                  {{ booking.package.pName }}
+                </h5>
+                <small class="text-muted">
+                  <i class="bi bi-calendar-event me-1"></i>{{ booking.date }}
+                </small>
+              </div>
+
+              <div class="col-md-2 mt-2 mt-md-0">
+                <div class="small text-muted text-uppercase">Travelers</div>
+                <div class="fw-bold">
+                  <i class="bi bi-people me-1"></i>{{ booking.numberofpeople }} People
                 </div>
-        
-                <!-- Right side: Pay and Cancel buttons -->
-                <div class="d-flex flex-column align-items-start">
-                    <a href="{% url 'index' %}" class="btn mb-2" style="background-color: #e02d36; color: white">Payment</a>
-                    <a href="{% url 'cancel' booking.id%}" class="btn" style="background-color: #e02d36; color: white">Cancel</a>
-                </div>
+              </div>
+
+              <div class="col-md-2 mt-2 mt-md-0">
+                <div class="small text-muted text-uppercase">Price</div>
+                <div class="fw-bold text-success">${{ booking.total_price }}</div>
+              </div>
+
+              <div class="col-md-2 mt-2 mt-md-0">
+                <div class="small text-muted text-uppercase mb-1">Status</div>
+                <span class="status-badge {% if booking.status == 'Pending' %}status-pending{% else %}status-confirmed{% endif %}">
+                  {{ booking.status }}
+                </span>
+              </div>
+
+              <div class="col-md-3 mt-3 mt-md-0 text-md-end">
+                <a href="{% url 'index' %}" class="btn btn-outline-success btn-dash me-1">
+                  <i class="bi bi-credit-card me-1"></i>Pay
+                </a>
+                <a href="{% url 'cancel' booking.id %}" class="btn btn-outline-danger btn-dash" onclick="return confirm('Are you sure you want to cancel this booking?');">
+                  <i class="bi bi-x-circle me-1"></i>Cancel
+                </a>
+              </div>
+
             </div>
+          </div>
         </div>
-        
-        {% endfor %}
-    
-{% else %}
-    <p>No bookings found.</p>
-{% endif %}
-
-
-
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <i class="bi bi-luggage-fill display-1 mb-3"></i>
+      <h4>No bookings found yet.</h4>
+      <p>Ready for an adventure? Browse our packages and start planning!</p>
+      <a href="{% url 'packages' %}" class="btn btn-danger px-4 mt-2" style="background-color: #f32e38">Explore Packages</a>
+    </div>
+  {% endif %}
 </div>
 
 {% endblock body %}

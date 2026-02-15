@@ -1,30 +1,190 @@
-{% extends "base.html" %}
-{% load static %}
-{% block title %}
-Details
-{% endblock title %}
+{% extends "base.html" %} {% load static %} {% block title %} {{
+package.destination }} - Details {% endblock title %} {% block body %}
+<style>
+  .details-header {
+    background: #f8f9fa;
+    padding: 40px 0;
+    border-bottom: 1px solid #eee;
+  }
 
-{% block body %}
-<h1 class="text-center">Packages Details!!</h1>
-<div class="container d-flex justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm text-center">
-            <img src="{% static package.imgname|add:'.jpeg' %}" class="card-img-top mx-auto"
-                style="height: 200px; width: auto;" alt="{{ package.pName }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ package.pName }}</h5>
-                <p class="card-text">
-                    <strong>Destination:</strong> {{ package.destination }}<br />
-                    <strong>Duration:</strong> {{ package.days }} Days, {{ package.nights }} Nights<br />
-                    <strong>Hotel:</strong> {{ package.hotel}}<br />
-                    <strong>Price:</strong> ${{ package.price }}<br />
-                    <strong>Description:</strong> {{ package.description }}<br />
-                </p>
-                
-                <a href="{% url 'booking' package.pName%}" class="btn"
-                    style="background-color: #e02d36; color: white">Book Now</a>
-            </div>
+  .package-img-large {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .info-icon-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+  }
+
+  .info-icon-box:hover {
+    border-color: #f32e38;
+    transform: translateY(-5px);
+  }
+
+  .booking-sidebar {
+    position: sticky;
+    top: 100px;
+    background: #fff;
+    border-radius: 20px;
+    border: 2px solid #f32e38;
+    padding: 30px;
+  }
+
+  .feature-list i {
+    color: #f32e38;
+    margin-right: 10px;
+  }
+
+  .price-tag {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #f32e38;
+  }
+
+  @media (max-width: 768px) {
+    .package-img-large {
+      height: 250px;
+    }
+    .booking-sidebar {
+      position: static;
+      margin-top: 30px;
+    }
+  }
+</style>
+
+<div class="details-header">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/" class="text-decoration-none text-muted">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="{% url 'packages' %}" class="text-decoration-none text-muted"
+            >Packages</a
+          >
+        </li>
+        <li class="breadcrumb-item active text-danger" aria-current="page">
+          {{ package.destination }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="display-4 fw-bold">{{ package.destination }}</h1>
+    <p class="text-muted">
+      <i class="bi bi-tag-fill me-2"></i>Package ID: {{ package.pName }}
+    </p>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row g-5">
+    <div class="col-lg-8">
+      <img
+        src="{% static package.imgname|add:'.jpg' %}"
+        class="package-img-large mb-4"
+        alt="{{ package.destination }}"
+      />
+
+      <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3">
+          <div class="info-icon-box text-center text-md-start">
+            <i class="bi bi-clock-history fs-3 text-danger mb-2 d-block"></i>
+            <small class="text-muted d-block">Duration</small>
+            <span class="fw-bold"
+              >{{ package.days }}D / {{ package.nights }}N</span
+            >
+          </div>
         </div>
+        <div class="col-6 col-md-3">
+          <div class="info-icon-box text-center text-md-start">
+            <i class="bi bi-building fs-3 text-danger mb-2 d-block"></i>
+            <small class="text-muted d-block">Stay</small>
+            <span class="fw-bold">{{ package.hotel }}</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="info-icon-box text-center text-md-start">
+            <i class="bi bi-people fs-3 text-danger mb-2 d-block"></i>
+            <small class="text-muted d-block">Group Size</small>
+            <span class="fw-bold">2-10 People</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="info-icon-box text-center text-md-start">
+            <i class="bi bi-shield-check fs-3 text-danger mb-2 d-block"></i>
+            <small class="text-muted d-block">Insurance</small>
+            <span class="fw-bold">Included</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="fw-bold mb-3">Description</h3>
+      <p class="lead text-muted mb-5" style="line-height: 1.8">
+        {{ package.description }}
+      </p>
+
+      <h3 class="fw-bold mb-3">What's Included</h3>
+      <div class="row feature-list mb-5">
+        <div class="col-md-6 mb-2">
+          <i class="bi bi-check-circle-fill"></i> Professional Tour Guide
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="bi bi-check-circle-fill"></i> Transport to all sites
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="bi bi-check-circle-fill"></i> Breakfast and Dinner
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="bi bi-check-circle-fill"></i> Entry Fees to Attractions
+        </div>
+      </div>
     </div>
+
+    <div class="col-lg-4">
+      <div class="booking-sidebar shadow-lg">
+        <h5 class="text-muted text-uppercase small fw-bold">
+          Price starts from
+        </h5>
+        <div class="price-tag mb-3">
+          ${{ package.price }}
+          <span class="fs-6 text-muted fw-normal">/ person</span>
+        </div>
+
+        <hr />
+
+        <ul class="list-unstyled mb-4">
+          <li class="d-flex justify-content-between mb-2">
+            <span>Base Fare</span>
+            <span class="fw-bold">${{ package.price }}</span>
+          </li>
+          <li class="d-flex justify-content-between mb-2">
+            <span>Tax & Fees</span>
+            <span class="text-success">FREE</span>
+          </li>
+        </ul>
+
+        <a
+          href="{% url 'booking' package.pName %}"
+          class="btn btn-danger btn-lg w-100 fw-bold py-3"
+          style="background-color: #f32e38"
+        >
+          BOOK THIS TRIP
+        </a>
+
+        <div class="text-center mt-3">
+          <small class="text-muted"
+            ><i class="bi bi-shield-lock me-1"></i> Secure Booking System</small
+          >
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock body %}
